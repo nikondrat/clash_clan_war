@@ -96,6 +96,9 @@ class _AddPageState extends State<AddPage> {
               ),
             ],
           ),
+          const SizedBox(
+            height: 8,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

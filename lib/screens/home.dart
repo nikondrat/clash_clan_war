@@ -42,21 +42,31 @@ class _HomePageState extends State<HomePage> {
               if (snapshot.connectionState == ConnectionState.active) {
                 return const Center(child: CircularProgressIndicator());
               }
+              if (snapshot.hasError) {
+                return Center(
+                    child: Text(
+                  snapshot.hasError.toString(),
+                ));
+              }
               return persons.isNotEmpty
-                  ? ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      itemCount: persons.length,
-                      itemBuilder: (context, index) => PersonElement(
-                        index: index,
-                        person: Person(
-                            name: persons[index].name,
-                            war: persons[index].war,
-                            league: persons[index].league,
-                            description: persons[index].description,
-                            post: persons[index].post),
-                      ),
-                    )
+                  ? StreamBuilder(
+                      stream: refreshData,
+                      builder: (context, snapshot) {
+                        return ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          itemCount: persons.length,
+                          itemBuilder: (context, index) => PersonElement(
+                            index: index,
+                            person: Person(
+                                name: persons[index].name,
+                                war: persons[index].war,
+                                league: persons[index].league,
+                                description: persons[index].description,
+                                post: persons[index].post),
+                          ),
+                        );
+                      })
                   : Center(
                       child: Text('Добавьте игроков',
                           style: Theme.of(context).textTheme.bodyLarge),

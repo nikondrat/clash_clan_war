@@ -4,11 +4,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 List<Person> persons = [];
 
+Stream refreshData = (() async* {
+  while (true) {
+    await Future.delayed(const Duration(seconds: 1));
+    yield persons;
+  }
+})();
+
 Future setData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final data = jsonEncode(persons);
   prefs.setString('persons', data);
-  prefs.reload();
 }
 
 Future getData() async {
@@ -18,5 +24,4 @@ Future getData() async {
   final data = parsedData!.map((item) => Person.fromJson(item)).toList();
 
   persons = data;
-  prefs.reload();
 }
