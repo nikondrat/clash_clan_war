@@ -60,12 +60,7 @@ class _PersonElementState extends State<PersonElement> {
                 CupertinoPageRoute(
                   builder: (context) => ChangePage(
                     index: widget.index,
-                    person: Person(
-                        name: widget.person.name,
-                        war: widget.person.war,
-                        league: widget.person.league,
-                        description: widget.person.description,
-                        post: widget.person.post),
+                    person: widget.person,
                   ),
                 )),
             backgroundColor: Colors.blue,
@@ -135,12 +130,7 @@ class _PersonElementState extends State<PersonElement> {
             context,
             CupertinoPageRoute(
               builder: (context) => PersonPage(
-                person: Person(
-                    name: widget.person.name,
-                    war: widget.person.war,
-                    league: widget.person.league,
-                    post: widget.person.post,
-                    description: widget.person.description),
+                person: widget.person,
               ),
             )),
       ),
