@@ -6,7 +6,7 @@ List<Person> persons = [];
 
 Stream refreshData = (() async* {
   while (true) {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(microseconds: 1));
     yield persons;
   }
 })();

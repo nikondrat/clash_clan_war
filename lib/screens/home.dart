@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:russian_gold/components/person.dart';
+import 'package:russian_gold/components/list_persons.dart';
 import 'package:russian_gold/model/data.dart';
 import 'package:russian_gold/screens/add.dart';
 
@@ -24,17 +24,72 @@ class _HomePageState extends State<HomePage> {
               child: IconButton(
                   splashRadius: 20,
                   onPressed: () {
-                    setState(() {
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => const AddPage(),
-                          ));
-                    });
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const AddPage(),
+                        ));
                   },
                   icon: const Icon(Icons.add)),
             )
           ],
+          bottom: PreferredSize(
+              preferredSize: const Size(double.infinity, 40),
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Row(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          setState(() {
+                            persons.sort(((a, b) => a.name.compareTo(b.name)));
+                            setData();
+                          });
+                        },
+                        child: const Text(
+                          'Имя',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                    TextButton(
+                        onPressed: () {
+                          setState(() {
+                            persons.sort(((a, b) => a.post.compareTo(b.post)));
+                            setData();
+                          });
+                        },
+                        child: const Text(
+                          'Звание',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                    TextButton(
+                        onPressed: () {
+                          setState(() {
+                            persons.sort(
+                              (a, b) => a.war ? 0 : 1,
+                            );
+                            setData();
+                          });
+                        },
+                        child: const Text(
+                          'КВ',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                    TextButton(
+                        onPressed: () {
+                          setState(() {
+                            persons.sort(
+                              (a, b) => a.league ? 0 : 1,
+                            );
+                            setData();
+                          });
+                        },
+                        child: const Text(
+                          'ЛВК',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ],
+                ),
+              )),
         ),
         body: FutureBuilder(
             future: getData(),
@@ -49,40 +104,7 @@ class _HomePageState extends State<HomePage> {
                 ));
               }
               return persons.isNotEmpty
-                  ? StreamBuilder(
-                      stream: refreshData,
-                      builder: (context, snapshot) {
-                        return ReorderableListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            buildDefaultDragHandles: false,
-                            itemBuilder: (context, index) =>
-                                ReorderableDelayedDragStartListener(
-                                  key: Key('$index'),
-                                  index: index,
-                                  child: PersonElement(
-                                      index: index,
-                                      person: Person(
-                                          name: persons[index].name,
-                                          war: persons[index].war,
-                                          league: persons[index].league,
-                                          description:
-                                              persons[index].description,
-                                          post: persons[index].post)),
-                                ),
-                            itemCount: persons.length,
-                            onReorder: (int oldIndex, int newIndex) {
-                              setState(() {
-                                if (oldIndex < newIndex) {
-                                  newIndex -= 1;
-                                }
-                                Person _oldPerson = persons.elementAt(oldIndex);
-                                persons.removeAt(oldIndex);
-                                persons.insert(newIndex, _oldPerson);
-                                setData();
-                                refreshData;
-                              });
-                            });
-                      })
+                  ? const ListPersons()
                   : Center(
                       child: Text('Добавьте игроков',
                           style: Theme.of(context).textTheme.bodyLarge),

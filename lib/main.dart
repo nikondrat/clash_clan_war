@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:russian_gold/model/data.dart';
 import 'package:russian_gold/screens/home.dart';
 
 void main(List<String> args) {
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      title: 'Russian Gold',
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );

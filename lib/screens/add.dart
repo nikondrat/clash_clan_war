@@ -37,6 +37,7 @@ class _AddPageState extends State<AddPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        title: const Text('Добавить'),
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
@@ -51,7 +52,7 @@ class _AddPageState extends State<AddPage> {
             height: 8,
           ),
           Wrap(
-            spacing: 10,
+            spacing: 6,
             runSpacing: 6,
             children: [
               ChoiceChip(
